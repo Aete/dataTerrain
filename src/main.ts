@@ -1,24 +1,40 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import { css } from "goober";
+import { bgColor } from "./utils/colors";
+import Title from "./components/Title";
+import Viz from "./components/Viz";
+import Description from "./components/Description";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+const appStyle = css`
+  width: 960px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 80px 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: ${bgColor};
+  position: relative;
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+
+  @media (max-width: 960px) {
+    width: 100%;
+    padding: 50px 50px;
+  }
+`;
+
+function initApp(app: Element): void {
+  app.innerHTML = "";
+  app.className = appStyle;
+
+  const $title = Title();
+  const $description = Description();
+  const $viz = Viz();
+
+  app.appendChild($title);
+  app.appendChild($description);
+  app.appendChild($viz);
+}
+
+initApp(document.getElementById("app") as Element);
