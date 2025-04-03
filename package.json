@@ -9,12 +9,16 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/geojson": "^7946.0.16",
     "@types/three": "^0.173.0",
     "typescript": "~5.7.2",
     "vite": "^6.1.0"
   },
   "dependencies": {
+    "@types/d3": "^7.4.3",
+    "d3": "^7.9.0",
     "goober": "^2.1.16",
+    "save-dev": "^0.0.1-security",
     "three": "^0.173.0"
   }
 }
