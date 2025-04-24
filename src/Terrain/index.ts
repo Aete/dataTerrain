@@ -4,6 +4,7 @@ import * as d3 from "d3";
 type Coordinate = [number, number];
 type PointData = {
   value: number;
+  value2: number;
   longitude: number;
   latitude: number;
 };
@@ -16,12 +17,16 @@ export default class Terrain {
   private data: PointData[];
   private maxValue: number;
   private minValue: number;
+  private maxValue2: number;
+  private minValue2: number;
 
   constructor(private container: Element, data: PointData[]) {
     // data: [value, lat, long]
     this.data = data;
     this.maxValue = Math.max(...data.map((d) => d["value"]));
     this.minValue = Math.min(...data.map((d) => d["value"]));
+    this.minValue2 = Math.min(...data.map((d) => d["value2"]));
+    this.maxValue2 = Math.max(...data.map((d) => d["value2"]));
 
     // Initialize the scene, camera, and renderer
     this.scene = new THREE.Scene();
@@ -67,37 +72,41 @@ export default class Terrain {
   private createTerrain(): THREE.Mesh {
     const geometry = new THREE.BufferGeometry();
     const vertices: number[] = [];
+    const colors: number[] = [];
 
     for (let i = 0; i < this.data.length; i += 3) {
       const triangle = this.data.slice(i, i + 3);
-      triangle.forEach(({ value, latitude, longitude }) => {
+      triangle.forEach(({ value, value2, latitude, longitude }) => {
         const [x, y] = this.D3Projection([longitude, latitude]) as Coordinate;
         const normalizedX = (x / 900) * 6 - 3;
         const normalizedZ = (y / 600) * 4 - 2;
         const normalizedY =
           (value - this.minValue) / (this.maxValue - this.minValue) - 0.5;
         vertices.push(normalizedX, normalizedY, normalizedZ);
+
+        const colorHex = new THREE.Color(this.colorScale(value2));
+        colors.push(colorHex.r, colorHex.g, colorHex.b);
       });
     }
     geometry.setAttribute(
       "position",
       new THREE.Float32BufferAttribute(vertices, 3)
     );
+
+    geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
     geometry.computeVertexNormals();
 
     const material = new THREE.MeshStandardMaterial({
-      color: 0xcccccc,
+      vertexColors: true,
       wireframe: false,
     });
     return new THREE.Mesh(geometry, material);
   }
 
-  private createHeatmap(): void {}
-
   private colorScale(value: number): string {
     const color = d3
       .scaleSequential(d3.interpolateYlOrRd)
-      .domain([this.minValue, this.maxValue])(value);
+      .domain([this.minValue2, this.maxValue2])(value);
     return color;
   }
 }

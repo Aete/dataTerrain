@@ -1,10 +1,10 @@
-import { css } from "goober";
+import styled from "styled-components";
 import { bgColor } from "./utils/colors";
 import Title from "./components/Title";
 import Viz from "./components/Viz";
 import Description from "./components/Description";
 
-const appStyle = css`
+const AppContainer = styled.div`
   width: 960px;
   min-height: 100vh;
   box-sizing: border-box;
@@ -24,17 +24,12 @@ const appStyle = css`
   }
 `;
 
-function initApp(app: Element): void {
-  app.innerHTML = "";
-  app.className = appStyle;
-
-  const $title = Title();
-  const $description = Description();
-  const $viz = Viz();
-
-  app.appendChild($title);
-  app.appendChild($description);
-  app.appendChild($viz);
+export default function App() {
+  return (
+    <AppContainer>
+      <Title />
+      <Description />
+      <Viz />
+    </AppContainer>
+  );
 }
-
-initApp(document.getElementById("app") as Element);

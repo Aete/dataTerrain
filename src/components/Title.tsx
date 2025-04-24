@@ -1,7 +1,7 @@
-import { css } from "goober";
+import styled from "styled-components";
 import { textColor } from "../utils/colors";
 
-const headerStyle = css`
+const Header = styled.h1`
   font-size: 48px;
   font-weight: 500;
   color: ${textColor};
@@ -14,10 +14,6 @@ const headerStyle = css`
   }
 `;
 
-export default function Title(): Element {
-  const $title = document.createElement("h1");
-  $title.className = headerStyle;
-  $title.textContent = "DataTerrain";
-
-  return $title;
+export default function Title() {
+  return <Header>DataTerrain</Header>;
 }
