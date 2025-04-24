@@ -12,6 +12,7 @@
     "@types/geojson": "^7946.0.16",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "@types/react-map-gl": "^6.1.7",
     "@types/three": "^0.173.0",
     "@vitejs/plugin-react": "^4.4.1",
     "typescript": "~5.7.2",
@@ -19,9 +20,13 @@
   },
   "dependencies": {
     "@types/d3": "^7.4.3",
+    "@types/mapbox-gl": "^3.4.1",
     "d3": "^7.9.0",
+    "deck.gl": "^9.1.11",
+    "mapbox-gl": "^3.11.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-map-gl": "^8.0.4",
     "save-dev": "^0.0.1-security",
     "styled-components": "^6.1.17",
     "three": "^0.173.0"

@@ -1,51 +1,56 @@
-import React from "react";
 import styled from "styled-components";
+import { useState } from "react";
 import sampledata from "../utils/data/sample_coord.json";
-import Terrain from "../Terrain";
-
-interface SDotData {
-  temp_celsius: number;
-  humidity: number;
-  latitude: number;
-  longitude: number;
-}
-
-interface PointData {
-  value: number;
-  value2: number;
-  longitude: number;
-  latitude: number;
-}
+import { PointData, SDotData } from "../types";
+import ThreeTerrainLayer from "../Terrain/layers/ThreeTerrainLayer";
+import DeckGL from "@deck.gl/react";
+import { FlyToInterpolator } from "deck.gl";
+import Map from "react-map-gl/mapbox";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 const Container = styled.div`
-  display: flex;
   width: 900px;
   height: 600px;
-  align-items: center;
-  justify-content: center;
 `;
 
 const Viz: React.FC = () => {
-  const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const points: PointData[] = sampledata.map((d: SDotData) => ({
+    colorData: d.humidity,
+    heightData: d.temp_celsius,
+    latitude: d.latitude,
+    longitude: d.longitude,
+  }));
 
-  React.useEffect(() => {
-    if (containerRef.current) {
-      const terrain = new Terrain(
-        containerRef.current,
-        sampledata.map(
-          (d: SDotData): PointData => ({
-            value: d.temp_celsius,
-            value2: d.humidity,
-            latitude: d.latitude,
-            longitude: d.longitude,
-          })
-        )
-      );
-      terrain.render();
-    }
-  }, []);
+  const [viewState, setViewState] = useState({
+    latitude: 37.5663,
+    longitude: 126.98,
+    zoom: 9,
+    transitionDuration: 1000,
+    transitionInterpolator: new FlyToInterpolator(),
+  });
 
-  return <Container ref={containerRef} />;
+  const MAP_STYLE =
+    "https://basemaps.cartocdn.com/gl/dark-matter-nolabels-gl-style/style.json";
+
+  const layers = [new ThreeTerrainLayer({ data: points })];
+
+  return (
+    <Container>
+      <DeckGL
+        viewState={viewState}
+        controller={true}
+        layers={layers}
+        onViewStateChange={({ viewState }) => setViewState(viewState)}
+      >
+        <Map
+          mapboxAccessToken={
+            "pk.eyJ1Ijoic2doYW4iLCJhIjoiY2szamxqbjZnMGtmbTNjbXZzamh4cng3dSJ9.GGv4GVVoZ811d6PKi54PrA"
+          }
+          mapStyle={MAP_STYLE}
+        />
+      </DeckGL>
+    </Container>
+  );
 };
 
 export default Viz;
