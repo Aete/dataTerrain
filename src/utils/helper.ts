@@ -12,7 +12,11 @@ export function createColorScale(
 }
 
 export function createHeightScale(
-  domain: [number, number]
+  domain: [number, number],
+  height: number
 ): (v: number) => number {
-  return d3.scaleLinear().domain(domain).range([400, 800]);
+  return d3
+    .scaleLinear()
+    .domain(domain)
+    .range([height, height + 400]);
 }

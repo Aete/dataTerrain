@@ -5,12 +5,14 @@ import { Layer, LayerContext, UpdateParameters } from "@deck.gl/core";
 
 type Props = {
   data: PointData[];
+  height: number;
 };
 
 export default class ThreeTerrainLayer extends Layer<Props> {
   static layerName = "ThreeTerrainLayer";
   static defaultProps = {
     data: { type: "array", value: [] },
+    height: { type: "number", value: 0 },
   };
 
   declare state: {
@@ -68,7 +70,7 @@ export default class ThreeTerrainLayer extends Layer<Props> {
         }
       }
       const { viewport } = context;
-      const newMesh = createTerrainMesh(props.data, viewport);
+      const newMesh = createTerrainMesh(props.data, props.height, viewport);
 
       this.state.scene.add(newMesh);
       this.setState({ mesh: newMesh });

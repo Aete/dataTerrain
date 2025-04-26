@@ -8,7 +8,11 @@ import type { PointData } from "../types";
 import { Viewport } from "@deck.gl/core";
 type Coordinate = [number, number];
 
-export function createTerrainMesh(data: PointData[], viewport: Viewport) {
+export function createTerrainMesh(
+  data: PointData[],
+  height: number,
+  viewport: Viewport
+) {
   const geometry = new THREE.BufferGeometry();
   const vertices: number[] = [];
   const colors: number[] = [];
@@ -20,15 +24,15 @@ export function createTerrainMesh(data: PointData[], viewport: Viewport) {
   const minValue = Math.min(...vals);
   const maxValue2 = Math.max(...vals2);
   const minValue2 = Math.min(...vals2);
-  const heightScale = createHeightScale([minValue, maxValue]);
+  const heightScale = createHeightScale([minValue, maxValue], height);
   const colorScale = createColorScale([minValue2, maxValue2]);
 
   data.forEach((d) => {
-    const height = heightScale(d.heightData);
+    const calculatedHeight = heightScale(d.heightData);
     const [x, y, z] = viewport.projectPosition([
       d.longitude,
       d.latitude,
-      height,
+      calculatedHeight,
     ]);
     vertices.push(x, y, z * 30);
     const color = new THREE.Color(colorScale(d.colorData));

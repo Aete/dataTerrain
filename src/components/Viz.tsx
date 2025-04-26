@@ -36,6 +36,13 @@ const Viz: React.FC = () => {
     longitude: d.longitude,
   }));
 
+  const pointsTest: PointData[] = sampledata.map((d: SDotData) => ({
+    colorData: d.temp_celsius,
+    heightData: d.humidity,
+    latitude: d.latitude,
+    longitude: d.longitude,
+  }));
+
   const [viewState, setViewState] = useState({
     latitude: 37.5663,
     longitude: 126.98,
@@ -54,7 +61,15 @@ const Viz: React.FC = () => {
   });
 
   const TerrainLayer = new ThreeTerrainLayer({
+    id: "my-custom-terrain",
     data: points,
+    height: 400,
+  });
+
+  const TerrainLayerTest = new ThreeTerrainLayer({
+    id: "my-custom-terrain-2",
+    data: pointsTest,
+    height: 1200,
   });
 
   // handing hovering as a circle on the map
@@ -101,6 +116,7 @@ const Viz: React.FC = () => {
     HoverCircleLayer,
     HoverLineLayer,
     TerrainLayer,
+    TerrainLayerTest,
   ];
 
   return (
