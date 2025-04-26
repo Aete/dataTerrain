@@ -13,22 +13,35 @@ import Map from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 // types
-import { PointData, SDotData } from "../types";
+import { PointData, SDotData } from "../../types";
 import { FeatureCollection } from "geojson";
 
 // custom layers
-import ThreeTerrainLayer from "../Terrain/layers/ThreeTerrainLayer";
+import ThreeTerrainLayer from "../../Terrain/layers/ThreeTerrainLayer";
 
 // datasets
-import sampledata from "../utils/data/sample_coord.json";
-import seoulBoundary from "../utils/data/seoul_simplified.json";
+import sampledata from "../../utils/data/sample_coord.json";
+import seoulBoundary from "../../utils/data/seoul_simplified.json";
 
 const Container = styled.div`
-  width: 900px;
-  height: 600px;
+  position: sticky;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  right: 0;
+
+  // prevent overscroll-wheel drags from bubbling to the page
+  overscroll-behavior: contain;
 `;
 
 const Viz: React.FC = () => {
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    // 0 = left, 1 = middle, 2 = right
+    if (e.button === 1) {
+      e.preventDefault();
+    }
+  }, []);
+
   const points: PointData[] = sampledata.map((d: SDotData) => ({
     colorData: d.humidity,
     heightData: d.temp_celsius,
@@ -120,7 +133,7 @@ const Viz: React.FC = () => {
   ];
 
   return (
-    <Container>
+    <Container onMouseDown={handleMouseDown}>
       <DeckGL
         viewState={viewState}
         controller={true}
