@@ -39,7 +39,7 @@ export default class ThreeTerrainLayer extends Layer<Props> {
       0.1,
       1000
     );
-    camera.position.set(0, 5, 10);
+    camera.position.set(0, 5, 0);
 
     // set light
     scene.add(new THREE.AmbientLight(0xffffff, 0.6));

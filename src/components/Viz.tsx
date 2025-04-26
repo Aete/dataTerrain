@@ -1,12 +1,21 @@
 import styled from "styled-components";
 import { useState } from "react";
-import sampledata from "../utils/data/sample_coord.json";
-import { PointData, SDotData } from "../types";
-import ThreeTerrainLayer from "../Terrain/layers/ThreeTerrainLayer";
+
 import DeckGL from "@deck.gl/react";
-import { FlyToInterpolator } from "deck.gl";
+import { FlyToInterpolator, GeoJsonLayer, MapViewState } from "deck.gl";
 import Map from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
+
+// types
+import { PointData, SDotData } from "../types";
+import { FeatureCollection } from "geojson";
+
+// custom layers
+import ThreeTerrainLayer from "../Terrain/layers/ThreeTerrainLayer";
+
+// datasets
+import sampledata from "../utils/data/sample_coord.json";
+import seoulBoundary from "../utils/data/seoul_simplified.json";
 
 const Container = styled.div`
   width: 900px;
@@ -27,12 +36,25 @@ const Viz: React.FC = () => {
     zoom: 9,
     transitionDuration: 1000,
     transitionInterpolator: new FlyToInterpolator(),
+  } as MapViewState);
+
+  const SeoulGeoJsonLayer = new GeoJsonLayer({
+    id: "seoul-geojson",
+    data: seoulBoundary as FeatureCollection,
+    pickable: false,
+    getLineColor: [255, 255, 255],
+    getLineWidth: 100,
+    filled: false,
+  });
+
+  const TerrainLayer = new ThreeTerrainLayer({
+    data: points,
   });
 
   const MAP_STYLE =
     "https://basemaps.cartocdn.com/gl/dark-matter-nolabels-gl-style/style.json";
 
-  const layers = [new ThreeTerrainLayer({ data: points })];
+  const layers = [TerrainLayer, SeoulGeoJsonLayer];
 
   return (
     <Container>
@@ -40,7 +62,9 @@ const Viz: React.FC = () => {
         viewState={viewState}
         controller={true}
         layers={layers}
-        onViewStateChange={({ viewState }) => setViewState(viewState)}
+        onViewStateChange={({ viewState }) =>
+          setViewState(viewState as MapViewState)
+        }
       >
         <Map
           mapboxAccessToken={
