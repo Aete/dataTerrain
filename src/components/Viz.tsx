@@ -85,7 +85,7 @@ const Viz: React.FC = () => {
     data: hoverPos ? [hoverPos] : [],
     getSourcePosition: (d) => [d[0], d[1], 0],
     getTargetPosition: (d) => [d[0], d[1], 100000],
-    getColor: [255, 255, 255, 255],
+    getColor: [255, 255, 255, 180],
     getWidth: 2,
     pickable: false,
     parameters: {
