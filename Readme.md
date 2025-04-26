@@ -18,4 +18,13 @@ The data visualization consists of three layers:
 
 All three layers display data using a color heatmap, and the top two layers additionally allow data to be mapped to height.
 
+데이터 시각화는 세 개의 레이어로 구성됩니다.
+
+가장 하단 레이어는 Mapbox GL 지도를 기반으로 통합되며,
+
+상위 두 레이어는 Three.js로 구현된 3D 객체로 구성됩니다.
+
+세 레이어 모두 색상 히트맵으로 데이터를 표현하며,
+상위 두 레이어에서는 색상 외에도 높이(height)로 데이터를 매핑할 수 있습니다.
+
 ![Visualization example](image/example1.png)
