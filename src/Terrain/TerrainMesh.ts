@@ -1,12 +1,7 @@
 import * as THREE from "three";
-import {
-  seoulMercator,
-  createColorScale,
-  createHeightScale,
-} from "../utils/helper";
+import { createColorScale, createHeightScale } from "../utils/helper";
 import type { PointData } from "../types";
 import { Viewport } from "@deck.gl/core";
-type Coordinate = [number, number];
 
 export function createTerrainMesh(
   data: PointData[],
