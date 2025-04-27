@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Title from "./Title";
-import Description from "../Description";
+import Description from "./Description";
 
 const LandingContainer = styled.div`
   width: 100%;

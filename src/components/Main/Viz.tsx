@@ -13,15 +13,17 @@ import Map from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 // types
-import { PointData, SDotData } from "../../types";
+import { PointData, SDotData, Column } from "../../types";
 import { FeatureCollection } from "geojson";
 
 // custom layers
 import ThreeTerrainLayer from "../../Terrain/layers/ThreeTerrainLayer";
 
 // datasets
-import sampledata from "../../utils/data/sample_coord.json";
 import seoulBoundary from "../../utils/data/seoul_simplified.json";
+import sampleData from "../../utils/data/sample_coord.json";
+import { useRecoilValue } from "recoil";
+import { LayerOneState, LayerTwoState } from "../../atoms";
 
 const Container = styled.div`
   position: sticky;
@@ -42,23 +44,32 @@ const Viz: React.FC = () => {
     }
   }, []);
 
-  const points: PointData[] = sampledata.map((d: SDotData) => ({
-    colorData: d.humidity,
-    heightData: d.temp_celsius,
-    latitude: d.latitude,
-    longitude: d.longitude,
-  }));
+  const layerOneSetting = useRecoilValue(LayerOneState);
+  const layerTwoSetting = useRecoilValue(LayerTwoState);
 
-  const pointsTest: PointData[] = sampledata.map((d: SDotData) => ({
-    colorData: d.temp_celsius,
-    heightData: d.humidity,
-    latitude: d.latitude,
-    longitude: d.longitude,
-  }));
+  const layerOnePoints = (sampleData as SDotData[]).map(
+    (d: SDotData): PointData => ({
+      colorData: d[layerOneSetting.colorColumn],
+      heightData: d[layerOneSetting.heightColumn],
+      latitude: d[Column.LATITUDE],
+      longitude: d[Column.LONGITUDE],
+    })
+  );
+
+  const layerTwoPoints = (sampleData as SDotData[]).map(
+    (d: SDotData): PointData => ({
+      colorData: d[layerTwoSetting.colorColumn],
+      heightData: d[layerTwoSetting.heightColumn],
+      latitude: d[Column.LATITUDE],
+      longitude: d[Column.LONGITUDE],
+    })
+  );
 
   const [viewState, setViewState] = useState({
-    latitude: 37.5663,
-    longitude: 126.98,
+    latitude: 37.74133260423905,
+    longitude: 126.84686531067668,
+    bearing: -35.629453681710224,
+    pitch: 47.25535026658767,
     zoom: 9,
     transitionDuration: 1000,
     transitionInterpolator: new FlyToInterpolator(),
@@ -75,13 +86,13 @@ const Viz: React.FC = () => {
 
   const TerrainLayer = new ThreeTerrainLayer({
     id: "my-custom-terrain",
-    data: points,
+    data: layerOnePoints,
     height: 400,
   });
 
   const TerrainLayerTest = new ThreeTerrainLayer({
     id: "my-custom-terrain-2",
-    data: pointsTest,
+    data: layerTwoPoints,
     height: 1200,
   });
 
@@ -89,13 +100,17 @@ const Viz: React.FC = () => {
   const [hoverPos, setHoverPos] = useState<[number, number] | null>(null);
   const handleHover = useCallback(
     (info: any) => {
-      if (info.coordinate) {
-        setHoverPos(info.coordinate);
-      } else {
-        setHoverPos(null);
+      const coord = info.coordinate || null;
+      if (
+        !hoverPos ||
+        coord === null ||
+        coord[0] !== hoverPos[0] ||
+        coord[1] !== hoverPos[1]
+      ) {
+        setHoverPos(coord);
       }
     },
-    [setHoverPos]
+    [hoverPos]
   );
   const HoverCircleLayer = new ScatterplotLayer({
     id: "hover-circle",

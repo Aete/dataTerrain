@@ -11,3 +11,15 @@ export interface PointData {
   longitude: number;
   latitude: number;
 }
+
+export enum Column {
+  TEMPERATURE = "temp_celsius",
+  HUMIDITY = "humidity",
+  LATITUDE = "latitude",
+  LONGITUDE = "longitude",
+}
+
+export type LayerState = {
+  colorColumn: Column;
+  heightColumn: Column;
+};
