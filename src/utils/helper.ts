@@ -8,7 +8,7 @@ export const seoulMercator = d3
 export function createColorScale(
   domain: [number, number]
 ): (v: number) => string {
-  return d3.scaleSequential(d3.interpolateYlOrRd).domain(domain);
+  return d3.scaleSequential().domain(domain).interpolator(d3.interpolateYlOrRd);
 }
 
 export function createHeightScale(

@@ -11,6 +11,7 @@ export function createTerrainMesh(
   const geometry = new THREE.BufferGeometry();
   const vertices: number[] = [];
   const colors: number[] = [];
+  console.log("data");
 
   // create scalers for height and color
   const vals = data.map((d) => d.heightData);

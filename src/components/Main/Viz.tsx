@@ -87,7 +87,7 @@ const Viz: React.FC = () => {
   const TerrainLayer = new ThreeTerrainLayer({
     id: "my-custom-terrain",
     data: layerOnePoints,
-    height: 400,
+    height: 600,
   });
 
   const TerrainLayerTest = new ThreeTerrainLayer({
