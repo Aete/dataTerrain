@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import { bgColor } from "../../../utils/colors";
 import { LayerOneState, LayerTwoState } from "../../../atoms";
-import { Column } from "../../../types";
 import { useRecoilState } from "recoil";
-import ControlPanel from "./ControlPanel";
+import LayerSetting from "./LayerSetting";
 
 const PanelContainer = styled.div`
   width: 50%;
-  height: 100%;
+  height: 100vh;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -20,8 +19,11 @@ const PanelContainer = styled.div`
   font-style: normal;
 
   @media (max-width: 960px) {
-    width: 100%;
-    padding: 50px 50px;
+    width: 100vw;
+    height: 100%;
+    padding: 0;
+    flex-direction: column;
+    justify-content: center;
   }
 `;
 
@@ -33,6 +35,13 @@ const RightPanel = styled.div`
   box-sizing: border-box;
   padding: 10px;
   margin-right: 10px;
+
+  @media (max-width: 960px) {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    overflow-x: auto;
+  }
 `;
 
 export default function Panel() {
@@ -41,17 +50,17 @@ export default function Panel() {
   return (
     <PanelContainer>
       <RightPanel>
-        <ControlPanel
+        <LayerSetting
           layer={"Layer 1"}
           layerRecoilState={layerOneRecoilState}
           height={true}
         />
-        <ControlPanel
+        <LayerSetting
           layer={"Layer 2"}
           layerRecoilState={layerTwoRecoilState}
           height={true}
         />
-        <ControlPanel
+        <LayerSetting
           layer={"Layer 3"}
           layerRecoilState={layerTwoRecoilState}
           height={false}

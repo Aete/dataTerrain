@@ -19,7 +19,6 @@ const AppContainer = styled.div`
 
   @media (max-width: 960px) {
     width: 100%;
-    padding: 50px 50px;
   }
 `;
 

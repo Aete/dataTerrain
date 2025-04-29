@@ -9,9 +9,13 @@ const DashboardContainer = styled.div`
   justify-content: center;
 
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 
   position: relative;
+
+  @media (max-width: 960px) {
+    flex-direction: column;
+  }
 `;
 
 const Dashboard = () => {

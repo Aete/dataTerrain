@@ -28,12 +28,16 @@ import { LayerOneState, LayerTwoState } from "../../atoms";
 const Container = styled.div`
   position: sticky;
   width: 50%;
-  height: 100%;
+  min-height: 100vh;
   top: 0;
   right: 0;
 
   // prevent overscroll-wheel drags from bubbling to the page
   overscroll-behavior: contain;
+
+  @media (max-width: 960px) {
+    width: 100%;
+  }
 `;
 
 const Viz: React.FC = () => {

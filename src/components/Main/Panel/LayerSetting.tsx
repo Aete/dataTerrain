@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Column, LayerState } from "../../../types";
 import { SetterOrUpdater } from "recoil";
 
-const ControlPanelContainer = styled.div`
+const LayerSettingContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -46,7 +46,7 @@ const Select = styled.select`
   }
 `;
 
-export default function ControlPanel({
+export default function LayerSetting({
   layer,
   layerRecoilState,
   height,
@@ -57,7 +57,7 @@ export default function ControlPanel({
 }) {
   const [layerState, setLayerState] = layerRecoilState;
   return (
-    <ControlPanelContainer>
+    <LayerSettingContainer>
       <h2>{layer}</h2>
       <Label>Color by:</Label>
       <Select
@@ -93,6 +93,6 @@ export default function ControlPanel({
           </Select>
         </>
       )}
-    </ControlPanelContainer>
+    </LayerSettingContainer>
   );
 }

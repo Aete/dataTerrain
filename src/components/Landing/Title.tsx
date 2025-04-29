@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { textColor } from "../../utils/colors";
+import { tablet } from "../../utils/helper";
 
 const TitleText = styled.h1`
   font-size: 128px;
@@ -7,7 +8,6 @@ const TitleText = styled.h1`
   text-align: center;
   line-height: 125%;
   color: ${textColor};
-  font-family: "Roboto", sans-serif;
   letter-spacing: 0.05em;
   margin-bottom: 40px;
 
@@ -15,6 +15,11 @@ const TitleText = styled.h1`
     font-size: 108px;
     margin-bottom: 100px;
     line-height: 110%;
+  }
+
+  @media (max-width: ${tablet}px) {
+    font-size: 48px;
+    margin-bottom: 50px;
   }
 `;
 

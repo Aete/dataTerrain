@@ -20,3 +20,5 @@ export function createHeightScale(
     .domain(domain)
     .range([height, height + 400]);
 }
+
+export const tablet = 768;
